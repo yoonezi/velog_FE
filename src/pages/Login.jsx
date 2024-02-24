@@ -6,49 +6,53 @@ import NavHeader from "../Common/Header/NavHeader/NavHeader";
 import Layouts from "../Common/Layout";
 import { Btn } from "../components/Btn";
 import { Input } from "../components/Input";
-import { useEffect, useState } from "react";
-
-// 임시계정
-const User = {
-  id: "test",
-  pw: "test1234@@@",
-};
+import { useState } from "react";
+import axios from "axios";
 
 export default function Login() {
   const nav = useNavigate();
 
-  const [id, setId] = useState("");
-  const [pw, setPw] = useState("");
-  const [pwValid, setPwValid] = useState(false);
-  const [notAllow, setNowAllow] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const onClickConfirmButton = () => {
-    if (id === "" || pw === "") {
-      alert("아이디 혹은 비밀번호를 입력해주세요.");
-    }
-    if (id === User.id && pw === User.pw) {
-      alert("로그인에 성공했습니다.");
-      nav("/");
-    } else {
-      alert("등록되지 않은 회원입니다.");
+  const onClickConfirmButton = async () => {
+    try {
+      if (email === "" || password === "") {
+        alert("이메일 혹은 비밀번호를 입력해주세요.");
+        return;
+      }
+
+      // 로그인 요청 보내기
+      const response = await axios.post("http://localhost:8080/login", {
+        email,
+        password,
+      });
+      // const { accessToken } = response.data;
+
+      // 로컬 스토리지에 accessToken 저장
+      const { accessToken, nickname, memberId } = response.data;
+
+      // 로컬 스토리지에 accessToken, 이메일, 닉네임 저장
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("email", email);
+      localStorage.setItem("nickname", nickname);
+      localStorage.setItem("memberId", memberId);
+
+      // alert("로그인에 성공했습니다.");
+      nav("/"); // 로그인 성공 후 홈페이지로 이동
+    } catch (error) {
+      console.error("로그인 에러:", error);
+      alert("로그인에 실패했습니다. 다시 시도해주세요.");
     }
   };
 
   const handleId = (e) => {
-    setId(e.target.value);
+    setEmail(e.target.value);
   };
 
   const handlePw = (e) => {
-    setPw(e.target.value);
+    setPassword(e.target.value);
   };
-
-  useEffect(() => {
-    if (pwValid) {
-      setNowAllow(false);
-      return;
-    }
-    setNowAllow(true);
-  }, [pwValid]);
 
   return (
     <>
@@ -67,7 +71,7 @@ export default function Login() {
                     placeholder="아이디를 입력해주세요"
                     type="text"
                     name="userId"
-                    value={id}
+                    value={email}
                     onChange={handleId}
                   />
                 </InputWrapper>
@@ -78,19 +82,19 @@ export default function Login() {
                     placeholder="비밀번호를 입력해주세요"
                     type="password"
                     name="password"
-                    value={pw}
+                    value={password}
                     onChange={handlePw}
                   />
                 </InputWrapper>
               </InputArea>
-              <FindUserInfoArea>
+              {/* <FindUserInfoArea>
                 <p>아이디 찾기</p>
                 <span></span>
                 <p>비밀번호 찾기</p>
-              </FindUserInfoArea>
+              </FindUserInfoArea> */}
               <BtnWrapper>
                 <Btn
-                  type="submit"
+                  type="button"
                   width="100%"
                   height="54px"
                   border="0px none"

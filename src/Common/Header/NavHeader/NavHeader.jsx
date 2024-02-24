@@ -1,21 +1,26 @@
 import React from "react";
 import styled from "styled-components";
-import NavCenter from "../element/NavCenter";
-import Category from "../element/Category";
+import { useNavigate } from "react-router-dom";
 
 export default function NavHeader() {
+  const accessToken = localStorage.getItem("accessToken");
+
+  const navigate = useNavigate();
+
+  const handleWritePost = () => {
+    if (accessToken) {
+      navigate("/writepost");
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
     <>
       <NavBody>
         <NavWrap>
-          <NavRight>
-            <Category />
-          </NavRight>
-          <NavCenter />
           <NavLeft>
-            <a href="/writepost">
-              <InfoDelivery>새 글 작성</InfoDelivery>
-            </a>
+            <InfoDelivery onClick={handleWritePost}>새 글 작성</InfoDelivery>
           </NavLeft>
         </NavWrap>
       </NavBody>

@@ -12,10 +12,13 @@ export default function SuggestDymmy(props) {
 
   return (
     <>
-      <Wrapper to={``}>
+      <Wrapper to={`/post/${props.postId}`}>
         <ProductBox>
           <ListImageBox>
-            <img src={props.url} alt="제안사진" />
+            <img
+              src={`http://localhost:8080/post/image/${props.url}`}
+              alt="제안사진"
+            />
           </ListImageBox>
 
           <ProductInfo>
@@ -25,12 +28,13 @@ export default function SuggestDymmy(props) {
             </TitleInfo>
 
             <LocalDateTimeInfo>
-              <span>2023년 01월 24일</span>
+              <span>{props.registerDate}</span>
             </LocalDateTimeInfo>
 
             <PriceInfo>
               <span>by {props.memberName}</span>
-              <span className="Likes">likes {props.likeCount}</span>
+              {/* <span className="Likes">likes {props.likeCount}</span> */}
+              <span className="Likes">likes 100</span>
             </PriceInfo>
           </ProductInfo>
         </ProductBox>
@@ -43,7 +47,8 @@ export const Wrapper = styled(Link)`
   /* margin-left: 6px; */
   margin-bottom: 30px;
   flex-shrink: 0;
-  width: 264.75px;
+  /* width: 264.75px; */
+  width: ${100 / 3}%;
   height: 100%;
   position: relative;
   transition-property: transform;
@@ -60,7 +65,7 @@ export const Wrapper = styled(Link)`
 export const ProductBox = styled.div`
   color: rgb(51, 51, 51);
   cursor: pointer;
-  width: 340px;
+  width: 95%;
   height: 100%;
 `;
 

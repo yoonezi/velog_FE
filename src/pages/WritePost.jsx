@@ -16,7 +16,6 @@ import NavHeader from "../Common/Header/NavHeader/NavHeader";
 import styled from "styled-components";
 import Layouts from "../Common/Layout";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
@@ -30,6 +29,9 @@ const formItemLayout = {
   },
 };
 
+const getAccessTokenFromLocalStorage = () =>
+  localStorage.getItem("accessToken");
+
 export default function WritePost() {
   // title, content, category, image
   const [form] = Form.useForm();
@@ -40,15 +42,13 @@ export default function WritePost() {
 
   // tag
   const { token } = theme.useToken();
-  const [tags, setTags] = useState(["Unremovable", "Backend", "Server"]);
+  const [tags, setTags] = useState(["Tag example", "Backend", "Server"]);
   const [inputVisible, setInputVisible] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [editInputIndex, setEditInputIndex] = useState(-1);
   const [editInputValue, setEditInputValue] = useState("");
   const inputRef = useRef(null);
   const editInputRef = useRef(null);
-
-  const navigate = useNavigate();
 
   const handleTitleChange = (event) => {
     setTitle(event.currentTarget.value);
@@ -112,13 +112,20 @@ export default function WritePost() {
 
   ///////////////ImageAPI
   const handleImageUpload = async (file) => {
+    const accessToken = getAccessTokenFromLocalStorage();
+
     try {
       const formData = new FormData();
       formData.append("multipartFile", file);
 
       const response = await axios.post(
         "http://localhost:8080/api/upload/image/post",
-        formData
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
       );
 
       console.log("Image upload response:", response);
@@ -158,8 +165,10 @@ export default function WritePost() {
 
   ///////////////PostAPI
   const handleWritePost = async () => {
+    const accessToken = getAccessTokenFromLocalStorage();
+
     try {
-      const filteredTags = tags.filter((tag) => tag !== "Unremovable");
+      const filteredTags = tags.filter((tag) => tag !== "Tag example");
       const addedImages = uploadedImages.filter(
         (image) => image.status === "done"
       );
@@ -180,10 +189,16 @@ export default function WritePost() {
 
       const response = await axios.post(
         "http://localhost:8080/api/post",
-        postParam
+        postParam,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
       );
 
       console.log(response);
+      // navigate("/"); // 로그인 성공 후 홈페이지로 이동
     } catch (error) {
       console.error("API 호출 실패:", error);
     }
@@ -191,6 +206,7 @@ export default function WritePost() {
 
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
+    
   };
 
   const tagInputStyle = {

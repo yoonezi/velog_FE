@@ -1,11 +1,42 @@
 import styled from "styled-components";
 import { Btn } from "../Btn";
 import { Input } from "../Input";
+import axios from "axios"; // axios 라이브러리 추가
+import { useNavigate } from "react-router-dom";
 
 export default function SignupForm() {
+  const navigate = useNavigate(); // useNavigate 훅 초기화
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const email = formData.get("email");
+    const nickname = formData.get("nickName");
+    const password = formData.get("password");
+    const confirmPassword = formData.get("confirmPw");
+
+    // 회원가입 요청을 보내는 axios 코드
+    axios
+      .post("http://localhost:8080/signup", {
+        email,
+        nickname,
+        password,
+        confirmPassword,
+      })
+      .then((response) => {
+        console.log("Signup successful:", response.data);
+
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.error("Error signing up:", error);
+        // 회원가입 실패 시의 처리
+      });
+  };
   return (
     <div>
-      <form style={{ marginTop: "10px" }}>
+      <form onSubmit={handleSubmit} style={{ marginTop: "10px" }}>
         <StRow>
           <LabelWrapper>
             <label>
@@ -47,28 +78,6 @@ export default function SignupForm() {
           </InputWrapper>
           <BtnWrapper />
         </StRow>
-        {/* <StRow>
-        <LabelWrapper>
-          <label>
-            아이디
-            <span>*</span>
-          </label>
-        </LabelWrapper>
-        <InputWrapper>
-          <Input
-            width="100%"
-            height="48px;"
-            type="text"
-            name="userId"
-            placeholder="아이디를 입력해주세요"
-            autoComplete="off"
-            maxLength="9"
-          />
-        </InputWrapper>
-        <BtnWrapper visibility="visible">
-          <Btn type="button">중복확인</Btn>
-        </BtnWrapper>
-      </StRow> */}
         <StRow>
           <LabelWrapper>
             <label>
@@ -107,27 +116,6 @@ export default function SignupForm() {
           </InputWrapper>
           <BtnWrapper />
         </StRow>
-
-        {/* <StRow>
-        <LabelWrapper>
-          <label>주소</label>
-          <span>*</span>
-        </LabelWrapper>
-        <InputWrapper>
-          <Btn width="100%" fontSize="14px" fontWeight="500" type="button">
-            <SearchImg
-              src="https://res.kurly.com/pc/service/cart/2007/ico_search.svg"
-              alt="돋보기"
-            />
-            주소 검색
-          </Btn>
-
-          <Validation>
-            <span>배송지에 따라 상품 정보가 달라질 수 있습니다.</span>
-          </Validation>
-        </InputWrapper>
-        <BtnWrapper />
-      </StRow> */}
         <Line />
 
         <SubmitBtnWrapper>
@@ -150,14 +138,6 @@ export default function SignupForm() {
 const Line = styled.div`
   padding: 10px 0px;
   border-bottom: 1px solid rgb(51, 51, 51);
-`;
-
-const SearchImg = styled.img`
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin-right: 4px;
-  vertical-align: middle;
 `;
 
 export const StRow = styled.div`

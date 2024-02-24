@@ -1,17 +1,13 @@
 import React from "react";
 import Header from "../Common/Header/Header";
-import NavHeader from "../Common/Header/NavHeader/NavHeader";
 import styled from "styled-components";
 
 import Suggest from "../components/Suggest";
-import { Link } from "react-router-dom";
 
 export default function Main() {
   return (
     <>
       <Header />
-      <NavHeader />
-
       <MainWrap>
         <Suggest />
       </MainWrap>
@@ -81,29 +77,5 @@ export const MainTitle = styled.div`
     background-color: rgb(247, 247, 247);
     color: rgb(51, 51, 51);
     border: none;
-  }
-`;
-
-const TotalViewBtn = styled(Link)`
-  margin: 0px auto;
-  display: flex;
-  -webkit-box-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  align-items: center;
-  width: 516px;
-  height: 56px;
-  border-radius: 3px;
-  border: 1px solid rgb(227, 227, 227);
-  cursor: pointer;
-  background-color: transparent;
-  text-decoration: none;
-  color: inherit;
-  & span {
-    padding: 0px 17px;
-    background-size: 18px 18px;
-    font-size: 16px;
-    letter-spacing: -0.27px;
-    line-height: 15px;
   }
 `;

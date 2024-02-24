@@ -1,11 +1,67 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import styled from "styled-components";
+import { Dropdown, Space } from "antd";
+import { useNavigate } from "react-router-dom";
 
-export default function Category() {
+const items = [
+  {
+    key: "1",
+    label: <a href="/category/AI">인공지능ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ</a>,
+    category: "AI",
+  },
+  {
+    key: "2",
+    label: <a href="/category/BACKEND">백엔드</a>,
+    category: "BACKEND",
+  },
+  {
+    key: "3",
+    label: <a href="/category/DEVOPS">데브옵스</a>,
+    category: "DEVOPS",
+  },
+  {
+    key: "4",
+    label: <a href="/category/IMBEDDED">임베디드</a>,
+    category: "IMBEDDED",
+  },
+  {
+    key: "5",
+    label: <a href="/category/FRONTEND">프론트엔드</a>,
+    category: "FRONTEND",
+  },
+  {
+    key: "6",
+    label: <a href="/category/GAME">게임</a>,
+    category: "GAME",
+  },
+];
+
+export default function Category({ onCategorySelect }) {
+  const navigate = useNavigate();
+
+  const handleCategorySelect = (selectedCategory) => {
+    onCategorySelect(selectedCategory); // 선택된 카테고리를 전달
+    navigate(`/categorypost/${selectedCategory}`);
+  };
+
   return (
     <CategoryContainer>
       <CatrgoryIcon></CatrgoryIcon>
-      <span>카테고리</span>
+
+      <Dropdown
+        menu={{
+          items,
+        }}
+        placement="bottomRight"
+        onChange={handleCategorySelect}
+      >
+        <a onClick={(e) => e.preventDefault()}>
+          <Space>
+            <span>카테고리</span>
+          </Space>
+        </a>
+      </Dropdown>
     </CategoryContainer>
   );
 }
@@ -24,9 +80,6 @@ export const CategoryContainer = styled.div`
   }
   :hover {
     cursor: pointer;
-    & span {
-      /* color: rgb(95, 0, 128); */
-    }
   }
 `;
 
