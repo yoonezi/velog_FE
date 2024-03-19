@@ -185,6 +185,48 @@ export default function WritePost() {
           status: "done",
           order: index,
         })),
+        postStatus: "SERVICED"
+      };
+
+      const response = await axios.post(
+        "http://localhost:8080/api/post",
+        postParam,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      console.log(response);
+      // navigate("/"); // 로그인 성공 후 홈페이지로 이동
+    } catch (error) {
+      console.error("API 호출 실패:", error);
+    }
+  };
+
+  const handlePendingPost = async () => {
+    const accessToken = getAccessTokenFromLocalStorage();
+
+    try {
+      const filteredTags = tags.filter((tag) => tag !== "Tag example");
+      const addedImages = uploadedImages.filter(
+        (image) => image.status === "done"
+      );
+
+      const postParam = {
+        title,
+        content,
+        tagList: filteredTags,
+        categoryType: category,
+        postImageRequestList: addedImages.map((image, index) => ({
+          url: image.url,
+          uid: image.uid,
+          name: image.name,
+          status: "done",
+          order: index,
+        })),
+        postStatus: "PENDING",
       };
 
       const response = await axios.post(
@@ -206,7 +248,6 @@ export default function WritePost() {
 
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
-    
   };
 
   const tagInputStyle = {
@@ -398,9 +439,15 @@ export default function WritePost() {
                     htmlType="submit"
                     onClick={() => handleWritePost(title)}
                   >
-                    Submit
+                    출간하기
                   </Button>
-                  <Button htmlType="reset">reset</Button>
+                  <Button
+                    htmlType="submit"
+                    onClick={() => handlePendingPost(title)}
+                  >
+                    임시저장
+                  </Button>
+                  <Button htmlType="reset">취소</Button>
                 </Space>
               </Form.Item>
             </Form>

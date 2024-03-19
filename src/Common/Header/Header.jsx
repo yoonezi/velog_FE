@@ -125,7 +125,7 @@ export default function Header() {
     },
     {
       key: "2",
-      label: <a href="/">임시 글</a>,
+      label: <Link to={`/pending/${memberInfo.memberId}`}>임시 글</Link>,
     },
     {
       key: "3",

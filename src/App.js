@@ -12,6 +12,10 @@ import MyPosts from "./components/MyPosts";
 import Following from "./pages/Following";
 import Follower from "./pages/Follower";
 import Setting from "./pages/Setting";
+import PendingPost from "./pages/PendingPost";
+import PendingPosts from "./components/PendingPosts";
+import PendingDetail from "./pages/PendingDetail";
+import EditPendingPost from "./pages/EditPendingPost";
 
 function App() {
   return (
@@ -23,10 +27,13 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/post/:postId" element={<Detail />} />
+          <Route path="/post/pending/:postId" element={<PendingDetail />} />
           <Route path="/edit/:postId" element={<EditPost />} />
+          <Route path="/edit/pending/:postId" element={<EditPendingPost />} />
           <Route path="/writepost" element={<WritePost />} />
           <Route path="/category/:category" element={<CategoryMain />} />
           <Route path="/memberpost/:memberId" element={<MyPosts />} />
+          <Route path="/pending/:memberId" element={<PendingPosts />} />
           <Route path="/:memberId/followers" element={<Follower />} />
           <Route path="/:memberId/followings" element={<Following />} />
           <Route path="/setting" element={<Setting />} />

@@ -16,7 +16,7 @@ export default function SuggestDymmy(props) {
         <ProductBox>
           <ListImageBox>
             <img
-              src={`http://localhost:8080/post/image/${props.url}`}
+              src={`https://velog-yz.s3.ap-northeast-2.amazonaws.com/images/${props.url}`}
               alt="제안사진"
             />
           </ListImageBox>
@@ -34,7 +34,7 @@ export default function SuggestDymmy(props) {
             <PriceInfo>
               <span>by {props.memberName}</span>
               {/* <span className="Likes">likes {props.likeCount}</span> */}
-              <span className="Likes">likes 100</span>
+              {/* <span className="Likes">likes 100</span> */}
             </PriceInfo>
           </ProductInfo>
         </ProductBox>

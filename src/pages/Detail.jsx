@@ -412,7 +412,7 @@ export default function Detail() {
                     post.postImageList.map((image, index) => (
                       <Image
                         key={index}
-                        src={`http://localhost:8080/post/image/${image.url}`}
+                        src={`https://velog-yz.s3.ap-northeast-2.amazonaws.com/images/${image.url}`}
                         alt={`Image ${index}`}
                       />
                     ))}

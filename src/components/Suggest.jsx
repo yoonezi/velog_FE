@@ -29,7 +29,7 @@ export default function Suggest() {
   const [posts, setPosts] = useState([]);
   const [sortType, setSortType] = useState("LATEST");
   const [page, setPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
 
   const handleMenuClick = (item) => {
     setSortType(item.key);
@@ -47,6 +47,7 @@ export default function Suggest() {
         `http://localhost:8080/api/post/search/main?page=${page}&size=6&sort=${sort}`
       );
       setPosts(response.data.postResponses);
+      setTotalCount(response.data.totalCount);
     } catch (error) {
       console.error("Error fetching posts:", error);
     }
@@ -84,7 +85,8 @@ export default function Suggest() {
       </SuggestBody>
       <Pagination
         current={page + 1}
-        total={50}
+        total={totalCount}
+        defaultPageSize={6}
         onChange={(pageNumber) => setPage(pageNumber - 1)}
         style={{ textAlign: "end" }}
       />

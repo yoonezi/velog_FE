@@ -57,7 +57,7 @@ export default function EditPost() {
       const accessToken = getAccessTokenFromLocalStorage();
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/post/search/${postId}`,
+          `http://localhost:8080/api/post/pending/${postId}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -85,7 +85,7 @@ export default function EditPost() {
           category: post.categoryType,
           upload: post.postImageList.map((image, index) => ({
             // url: image.url,
-            url: `http://localhost:8080/post/image/${image.url}`,
+            url: `https://velog-yz.s3.ap-northeast-2.amazonaws.com/images/${image.url}`,
             uid: index,
             name: image.url,
             status: "done",
