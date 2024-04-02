@@ -85,7 +85,8 @@ export default function EditPost() {
           category: post.categoryType,
           upload: post.postImageList.map((image, index) => ({
             // url: image.url,
-            url: `https://velog-yz.s3.ap-northeast-2.amazonaws.com/images/${image.url}`,
+            // url: `https://velog-yz.s3.ap-northeast-2.amazonaws.com/images/${image.url}`,
+            url: `http://localhost:8080/post/image/${image.url}`,
             uid: index,
             name: image.url,
             status: "done",

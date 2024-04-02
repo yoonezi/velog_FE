@@ -154,7 +154,8 @@ export default function PendingDetail() {
                     post.postImageList.map((image, index) => (
                       <Image
                         key={index}
-                        src={`https://velog-yz.s3.ap-northeast-2.amazonaws.com/images/${image.url}`}
+                        // src={`https://velog-yz.s3.ap-northeast-2.amazonaws.com/images/${image.url}`}
+                        src={`http://localhost:8080/post/image/${image.url}`}
                         alt={`Image ${index}`}
                       />
                     ))}

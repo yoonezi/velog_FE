@@ -28,6 +28,7 @@ export default function MyPosts() {
   const [memberEmail, setEmail] = useState([]);
   const [followerResponses, setFollowerResponses] = useState([]);
   const [followStatus, setFollowStatus] = useState(false);
+  const [hideFollowButton, setHideFollowButton] = useState(false);
 
   const navigate = useNavigate();
 
@@ -145,6 +146,16 @@ export default function MyPosts() {
     }
   };
 
+  useEffect(() => {
+    // 로컬 스토리지에 있는 이메일과 현재 페이지의 이메일이 같다면 팔로우 버튼을 숨깁니다.
+    const loggedInEmail = localStorage.getItem("email");
+    if (loggedInEmail && loggedInEmail === member.email) {
+      setHideFollowButton(true);
+    } else {
+      setHideFollowButton(false);
+    }
+  }, [member.email]);
+
   return (
     <>
       <Header />
@@ -167,23 +178,26 @@ export default function MyPosts() {
                   </UserProfileUserInfo>
                 </UserProfileLeft>
                 <ButtonWapper>
-                  <div data-testid="follow-btn" className="sc-kmQMED iNcMsu">
-                    {followStatus ? (
-                      <Button
-                        style={{ color: "#333333" }}
-                        onClick={handleUnfollowClick} // 팔로잉 상태일 때는 handleUnfollowClick 호출
-                      >
-                        팔로잉
-                      </Button>
-                    ) : (
-                      <Button
-                        style={{ color: "#12B886" }}
-                        onClick={handleFollowClick} // 팔로우 상태일 때는 handleFollowClick 호출
-                      >
-                        팔로우
-                      </Button>
-                    )}
-                  </div>
+                  {/* 팔로우 버튼을 숨겨야 할 때 숨김 처리 */}
+                  {!hideFollowButton && (
+                    <div data-testid="follow-btn" className="sc-kmQMED iNcMsu">
+                      {followStatus ? (
+                        <Button
+                          style={{ color: "#333333" }}
+                          onClick={handleUnfollowClick} // 팔로잉 상태일 때는 handleUnfollowClick 호출
+                        >
+                          팔로잉
+                        </Button>
+                      ) : (
+                        <Button
+                          style={{ color: "#12B886" }}
+                          onClick={handleFollowClick} // 팔로우 상태일 때는 handleFollowClick 호출
+                        >
+                          팔로우
+                        </Button>
+                      )}
+                    </div>
+                  )}
                 </ButtonWapper>
               </UserProfileSection>
               <UserProfileSeperator></UserProfileSeperator>
@@ -245,7 +259,8 @@ export default function MyPosts() {
                       width={200}
                       height={200}
                       alt="logo"
-                      src={`https://velog-yz.s3.ap-northeast-2.amazonaws.com/images/${item.mainImageUrl}`}
+                      // src={`https://velog-yz.s3.ap-northeast-2.amazonaws.com/images/${item.mainImageUrl}`}
+                      src={`http://localhost:8080/post/image/${item.mainImageUrl}`}
                     />
                   }
                 >

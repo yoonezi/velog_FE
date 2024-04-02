@@ -16,7 +16,8 @@ export default function SuggestDymmy(props) {
         <ProductBox>
           <ListImageBox>
             <img
-              src={`https://velog-yz.s3.ap-northeast-2.amazonaws.com/images/${props.url}`}
+              // src={`https://velog-yz.s3.ap-northeast-2.amazonaws.com/images/${props.url}`}
+              src={`http://localhost:8080/post/image/${props.url}`}
               alt="제안사진"
             />
           </ListImageBox>

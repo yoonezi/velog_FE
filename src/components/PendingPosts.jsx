@@ -212,7 +212,8 @@ export default function PendingPosts() {
                       width={200}
                       height={200}
                       alt="logo"
-                      src={`https://velog-yz.s3.ap-northeast-2.amazonaws.com/images/${item.mainImageUrl}`}
+                      // src={`https://velog-yz.s3.ap-northeast-2.amazonaws.com/images/${item.mainImageUrl}`}
+                      src={`http://localhost:8080/post/image/${item.mainImageUrl}`}
                     />
                   }
                 >

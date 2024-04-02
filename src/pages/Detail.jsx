@@ -351,8 +351,8 @@ export default function Detail() {
                     <Separator className="separator">·</Separator>
                     <span>{post.registerDate}</span>
                   </Information>
-                  <div className="sc-GEbAx ernGXu">
-                    <div data-testid="follow-btn" className="sc-kmQMED iNcMsu">
+                  {post.memberId !== memberId && (
+                    <div className="sc-kmQMED iNcMsu">
                       {followStatus ? (
                         <Button
                           style={{ color: "#333333" }}
@@ -369,7 +369,7 @@ export default function Detail() {
                         </Button>
                       )}
                     </div>
-                  </div>
+                  )}
                 </TitleDetail>
                 <UpdateDeleteBtnWrap>
                   {post.memberId === memberId && (
@@ -412,7 +412,8 @@ export default function Detail() {
                     post.postImageList.map((image, index) => (
                       <Image
                         key={index}
-                        src={`https://velog-yz.s3.ap-northeast-2.amazonaws.com/images/${image.url}`}
+                        // src={`https://velog-yz.s3.ap-northeast-2.amazonaws.com/images/${image.url}`}
+                        src={`http://localhost:8080/post/image/${image.url}`}
                         alt={`Image ${index}`}
                       />
                     ))}
@@ -468,7 +469,7 @@ export default function Detail() {
                                 src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`}
                               />
                             }
-                            title={comment.memberId}
+                            title={comment.nickname}
                             description={comment.content}
                           />
                           <Button
